@@ -5,7 +5,6 @@ This project is a web-based Restaurant Management System developed using HTML an
 Run Script: Before accessing the system, run script.html once to initialize the required data.
 
 User Interfaces:
-
   Admin Interface:
       - `HomepageAdmin.html`: Landing page for the admin.
       - `adminLogin.html`: Login page for admin access. (Credentials: Username: admin@boudica, Password: rms)
