@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<style>
+    body {
+        background-color:black;
+        font-family: verdana;
+    }
+    .placeOrders {
+        text-align: center;
+        font-size: 200%;
+        color: crimson;
+    }
+    .heading {
+        text-align: center;
+        font-size: 450%;
+        color: #E0BE60;
+        text-decoration-line: underline;
+    }
+    .subheadings{
+        text-align: center;
+        font-size: 140%;
+    } 
+
+    table,th,td {
+        margin-left: 20%;
+        padding: 5px;
+        text-align: center;
+        border-bottom: 1px solid black;
+        border-collapse: collapse;
+    }
+    table{
+        border: 2px solid red;
+    }
+    tr{
+        background-color: beige;
+    }
+    tr:hover{
+        background-color: #E0BE60;
+    }
+    mark{
+        background-color: crimson;
+    }
+    #cleardiv {
+        clear: left;
+    }
+    .inputElem {
+        padding: 100%;
+        width: 15%;
+        font-weight: 400;
+        padding: 3px;
+        border: 3px solid;
+        border-color: silver;
+    }
+    .buttonClass {
+        cursor: pointer;
+        width: 4%;
+        color: red;
+        background-color: beige;
+        border-radius: 2%;
+        font-size: 100%;
+        font-weight: 300;
+        padding: 0.3%;
+        border-color: #E0BE60;
+    }
+    .buttonClassTakeOrder {
+        cursor: pointer;
+        width: 7%;
+        color: red;
+        background-color: beige;
+        border-radius: 2%;
+        font-size: 100%;
+        font-weight: 300;
+        padding: 0.3%;
+        border-color: #E0BE60;
+    }
+    .newbutton{
+        float: center;
+        cursor: pointer;
+        width: 10%;
+        font-size: 90%;
+        color: black;
+        background-color: white;
+        border-color: black;
+        border-radius: 2%;
+        border-style: double;
+        padding: 0.5%;
+    }
+    .edbuttons{
+        cursor: pointer;
+        color: white;
+        background-color: black;
+        border-color: gray;
+        border-radius: 2%;
+    }
+    .addfields{
+        padding-top: 20px; 
+        color:white;
+    }
+</style>
+
+<html>
+    <body>
+        <div class="heading">
+            <p>MENU</p>
+        </div>
+        <div style="text-align: center;">
+            <button type="button" class="newbutton" onclick="document.getElementById('menuEdit').scrollIntoView();"><b>Click to add</b></button>
+        </div>
+        <br>
+        <div id ="cleardiv">
+            <div class="subheadings"><mark>STARTERS</mark></div>
+            <br>
+                <table style="width:60%" id="starterTable">   
+                    <tr>
+                        <th>Dish</th>
+                        <th>Price(Rs.)</th> 
+                        <th>Quantity Available</th>
+                        <th>Action</th>
+                    </tr>
+                </table>
+            <br><br>
+            <div class="subheadings"><mark>MAIN COURSE</mark></div>
+            <br>
+                <table style="width:60%" id="mcTable">   
+                    <tr>
+                        <th>Dish</th>
+                        <th>Price(Rs.)</th> 
+                        <th>Quantity Available</th>
+                        <th>Action</th>
+                    </tr>
+                </table>
+            <br><br>
+            <div class="subheadings"><mark>GRAVIES</mark></div>
+            <br>
+                <table style="width:60%" id="gravyTable">   
+                    <tr>
+                        <th>Dish</th>
+                        <th>Price(Rs.)</th> 
+                        <th>Quantity Available</th>
+                        <th>Action</th>
+                    </tr>
+                </table>
+            <br><br>
+            <div class="subheadings"><mark>Beverages</mark></div>
+            <br>
+                <table style="width:60%" id="bvgTable">   
+                    <tr>
+                        <th>Dish</th>
+                        <th>Price(Rs.)</th> 
+                        <th>Quantity Available</th>
+                        <th>Action</th>
+                    </tr>
+                </table>
+        </div>
+        <br>
+        <div id="menuEdit">
+            <p style="color:gold; padding:1%; font-size: 130%;">ADD NEW ITEM:</p>
+            <div align="left" style="padding-left: 2%;">
+                <p id='addmsg' style="color:red;"></p>
+                <form action="" id="my_form">
+                    <label for="items" style="color:white";><b>Select :</b></label>
+                    <select name="items" id="items" style="font-size: 105%">
+                        <option value="Starters">Starters</option>
+                        <option value="Main course">Main Course</option>
+                        <option value="Gravies">Gravies</option>
+                        <option value="Beverages">Beverages</option>
+                    </select>
+                    <div class="addfields"><b>
+                    Dish Name<sup style="color:red">*</sup>:</b> <input type="text" class="inputElem" id="dishname" required>
+                    </div>  
+                    <div class="addfields" style="width: 25%"><b>
+                    Price(Rs)<sup style="color:red">*</sup>:</b> <input type="number" class="inputElem" id="price" required>
+                    </div> 
+                    <div class="addfields" style="width: 19%"><b>
+                    Quantity<sup style="color:red">*</sup>:</b> <input type="number" class="inputElem" id="quantity" min="1" max="99" required>
+                    </div>
+                    <br>
+                    <button type="submit" class="buttonClass" onclick="addData()"><b>Add</b></button>
+                </form>
+            </div>  
+        </div> 
+    </body>
+</html>
+
+<script> 
+    let starterNames = JSON.parse(localStorage.getItem('starterNames'));
+    let starterPrice = JSON.parse(localStorage.getItem('starterPrice'));
+    let starterQuantity = JSON.parse(localStorage.getItem('starterQuantity'));
+
+    let starterTable = document.getElementById("starterTable");
+
+    starterNames.map(function(elem, index) {
+        let newRow = starterTable.insertRow(starterTable.rows.length); 
+        newRow.insertCell(0).innerHTML = elem; 
+        newRow.insertCell(1).innerHTML = starterPrice[index]; 
+        newRow.insertCell(2).innerHTML = starterQuantity[index]; 
+        newRow.insertCell(3).innerHTML = '<button class="edbuttons" data-category="Starters" data-name="'+elem+'" onclick="editData(this)">Edit</button>'+" "+ 
+                                        '<button class="edbuttons" data-category="Starters" data-name="'+elem+'" onclick="deleteData(this)">Delete</button>';
+    })
+
+
+
+    let mainCourseNames = JSON.parse(localStorage.getItem('mainCourseNames'));
+    let mainCoursePrice = JSON.parse(localStorage.getItem('mainCoursePrice'));
+    let mainCourseQuantity = JSON.parse(localStorage.getItem('mainCourseQuantity'));
+
+    let mcTable = document.getElementById("mcTable");
+
+    mainCourseNames.map(function(elem, index) {
+        let newRow = mcTable.insertRow(mcTable.rows.length); 
+        newRow.insertCell(0).innerHTML = elem; 
+        newRow.insertCell(1).innerHTML = mainCoursePrice[index]; 
+        newRow.insertCell(2).innerHTML = mainCourseQuantity[index]; 
+        newRow.insertCell(3).innerHTML = '<button class="edbuttons" data-category="Main course" data-name="'+elem+'" onclick="editData(this)">Edit</button>'+" "+ 
+                                        '<button class="edbuttons" data-category="Main course" data-name="'+elem+'" onclick="deleteData(this)">Delete</button>';
+        
+    })
+
+
+
+    let graviesNames = JSON.parse(localStorage.getItem('graviesNames'));
+    let graviesPrice = JSON.parse(localStorage.getItem('graviesPrice'));
+    let graviesQuantity = JSON.parse(localStorage.getItem('graviesQuantity'));
+
+    let gravyTable = document.getElementById("gravyTable");
+
+    graviesNames.map(function(elem, index) {
+        let newRow = gravyTable.insertRow(gravyTable.rows.length); 
+        newRow.insertCell(0).innerHTML = elem; 
+        newRow.insertCell(1).innerHTML = graviesPrice[index]; 
+        newRow.insertCell(2).innerHTML = graviesQuantity[index]; 
+        newRow.insertCell(3).innerHTML = '<button class="edbuttons" data-category="Gravies" data-name="'+elem+'" onclick="editData(this)">Edit</button>'+" "+ 
+                                        '<button class="edbuttons" data-category="Gravies" data-name="'+elem+'" onclick="deleteData(this)">Delete</button>';
+    })
+
+
+
+    let beveragesNames = JSON.parse(localStorage.getItem('beveragesNames'));
+    let beveragesPrice = JSON.parse(localStorage.getItem('beveragesPrice'));
+    let beveragesQuantity = JSON.parse(localStorage.getItem('beveragesQuantity'));
+
+    let bvgTable = document.getElementById("bvgTable");
+
+    beveragesNames.map(function(elem, index) {
+        let newRow = bvgTable.insertRow(bvgTable.rows.length); 
+        newRow.insertCell(0).innerHTML = elem; 
+        newRow.insertCell(1).innerHTML = beveragesPrice[index]; 
+        newRow.insertCell(2).innerHTML = beveragesQuantity[index]; 
+        newRow.insertCell(3).innerHTML = '<button class="edbuttons" data-category="Beverages" data-name="'+elem+'" onclick="editData(this)">Edit</button>'+" "+ 
+                                        '<button class="edbuttons" data-category="Beverages" data-name="'+elem+'" onclick="deleteData(this)">Delete</button>';
+    })
+
+
+    function addData() { 
+        // Get input values 
+        let option = document.getElementById("items").value; 
+        let name = document.getElementById("dishname").value; 
+        let price = document.getElementById("price").value; 
+        let quan = document.getElementById("quantity").value; 
+
+        const form = document.getElementById('my_form');
+        var msg=document.getElementById("addmsg");
+
+        if(name!='' & price!='' & quan!=''){
+            let table;
+            // Get the table and insert a new row at the end 
+            if (option=='Starters'){
+                table = document.getElementById("starterTable"); 
+                starterNames.push(name);
+                starterPrice.push(price);
+                starterQuantity.push(quan);
+
+                localStorage.setItem("starterNames", JSON.stringify(starterNames));
+                localStorage.setItem("starterPrice", JSON.stringify(starterPrice));
+                localStorage.setItem("starterQuantity", JSON.stringify(starterQuantity));
+            }
+            else if(option=='Main course'){
+                table = document.getElementById("mcTable"); 
+                mainCourseNames.push(name);
+                mainCoursePrice.push(price);
+                mainCourseQuantity.push(quan);
+
+                localStorage.setItem("mainCourseNames", JSON.stringify(mainCourseNames));
+                localStorage.setItem("mainCoursePrice", JSON.stringify(mainCoursePrice));
+                localStorage.setItem("mainCourseQuantity", JSON.stringify(mainCourseQuantity));
+            }
+            else if(option=='Gravies'){
+                table = document.getElementById("gravyTable"); 
+                graviesNames.push(name);
+                graviesPrice.push(price);
+                graviesQuantity.push(quan);
+
+                localStorage.setItem("graviesNames", JSON.stringify(graviesNames));
+                localStorage.setItem("graviesPrice", JSON.stringify(graviesPrice));
+                localStorage.setItem("graviesQuantity", JSON.stringify(graviesQuantity));
+            }
+            else{
+                table = document.getElementById("bvgTable"); 
+                beveragesNames.push(name);
+                beveragesPrice.push(price);
+                beveragesQuantity.push(quan);
+
+                localStorage.setItem("beveragesNames", JSON.stringify(beveragesNames));
+                localStorage.setItem("beveragesPrice", JSON.stringify(beveragesPrice));
+                localStorage.setItem("beveragesQuantity", JSON.stringify(beveragesQuantity));
+            }
+            let newRow = table.insertRow(table.rows.length); 
+
+            // Insert data into cells of the new row 
+            newRow.insertCell(0).innerHTML = name; 
+            newRow.insertCell(1).innerHTML = price; 
+            newRow.insertCell(2).innerHTML = quan; 
+            newRow.insertCell(3).innerHTML = 
+
+            '<button class="edbuttons" data-category="'+option+'" data-name="'+name+'" onclick="editData(this)">Edit</button>'+" "+ 
+            '<button class="edbuttons" data-category="'+option+'" data-name="'+name+'" onclick="deleteData(this)">Delete</button>'; 
+            msg.innerHTML = "Item added to "+option+"!";
+            form.reset();
+        }
+    }
+
+    function editData(button) { 
+        let getCategory = button.getAttribute('data-category');
+        let getName = button.getAttribute('data-name');
+        let row = button.parentNode.parentNode;  
+        let priceCell = row.cells[1]; 
+        let quanCell = row.cells[2];
+        
+        // Prompt the user to enter updated values 
+        let priceInput = 
+            prompt("Enter the new price:", 
+                priceCell.innerHTML 
+            ); 
+        let quanInput = 
+            prompt("Enter the updated quantity:", 
+                quanCell.innerHTML 
+            ); 
+        
+        // Update the cell contents with the new values 
+        priceCell.innerHTML = priceInput; 
+        quanCell.innerHTML = quanInput; 
+
+        if(getCategory == 'Starters') {
+            starterQuantity[starterNames.indexOf(getName)] = quanInput;
+            starterPrice[starterNames.indexOf(getName)] = priceInput;
+
+            localStorage.setItem("starterQuantity", JSON.stringify(starterQuantity));
+            localStorage.setItem("starterPrice", JSON.stringify(starterPrice));
+        } else if (getCategory == 'Main course') {
+            mainCourseQuantity[mainCourseNames.indexOf(getName)] = quanInput;
+            mainCoursePrice[mainCourseNames.indexOf(getName)] = priceInput;
+
+            localStorage.setItem("mainCourseQuantity", JSON.stringify(mainCourseQuantity));
+            localStorage.setItem("mainCoursePrice", JSON.stringify(mainCoursePrice));
+        } else if (getCategory == 'Gravies') {
+            graviesQuantity[graviesNames.indexOf(getName)] = quanInput;
+            graviesPrice[graviesNames.indexOf(getName)] = priceInput;
+
+            localStorage.setItem("graviesQuantity", JSON.stringify(graviesQuantity));
+            localStorage.setItem("graviesPrice", JSON.stringify(graviesPrice));
+        } else if (getCategory == 'Beverages') {
+            console.log("inside");
+            beveragesQuantity[beveragesNames.indexOf(getName)] = quanInput;
+            beveragesPrice[beveragesNames.indexOf(getName)] = priceInput;
+
+            localStorage.setItem("beveragesQuantity", JSON.stringify(beveragesQuantity));
+            localStorage.setItem("beveragesPrice", JSON.stringify(beveragesPrice));
+        }
+    } 
+
+    function deleteData(button) { 
+        let row = button.parentNode.parentNode;
+        row.parentNode.removeChild(row); 
+
+        let getCategory = button.getAttribute('data-category');
+        let getName = button.getAttribute('data-name');
+        
+        if(getCategory == 'Starters') {
+            let ind = starterNames.indexOf(getName)
+            starterNames.splice(ind,1);
+            starterQuantity.splice(ind,1);
+            starterPrice.splice(ind,1);
+            localStorage.setItem("starterNames", JSON.stringify(starterNames));
+            localStorage.setItem("starterQuantity", JSON.stringify(starterQuantity));
+            localStorage.setItem("starterPrice", JSON.stringify(starterPrice));
+
+        } else if (getCategory == 'Main course') {
+            let ind = mainCourseNames.indexOf(getName)
+            mainCourseNames.splice(ind,1);
+            mainCourseQuantity.splice(ind,1);
+            mainCoursePrice.splice(ind,1);
+            localStorage.setItem("mainCourseNames", JSON.stringify(mainCourseNames));
+            localStorage.setItem("mainCourseQuantity", JSON.stringify(mainCourseQuantity));
+            localStorage.setItem("mainCoursePrice", JSON.stringify(mainCoursePrice));
+
+        } else if (getCategory == 'Gravies') {
+            let ind = graviesNames.indexOf(getName)
+            graviesNames.splice(ind,1);
+            graviesQuantity.splice(ind,1);
+            graviesPrice.splice(ind,1);
+            localStorage.setItem("graviesNames", JSON.stringify(graviesNames));
+            localStorage.setItem("graviesQuantity", JSON.stringify(graviesQuantity));
+            localStorage.setItem("graviesPrice", JSON.stringify(graviesPrice));
+
+        } else if(getCategory == 'Beverages') {
+            let ind = beveragesNames.indexOf(getName)
+            beveragesNames.splice(ind,1);
+            beveragesQuantity.splice(ind,1);
+            beveragesPrice.splice(ind,1);
+            localStorage.setItem("beveragesNames", JSON.stringify(beveragesNames));
+            localStorage.setItem("beveragesQuantity", JSON.stringify(beveragesQuantity));
+            localStorage.setItem("beveragesPrice", JSON.stringify(beveragesPrice));
+
+        }
+    } 
+</script>

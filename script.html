@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<script>
+	localStorage.clear();
+
+	let starterNames = ['Paneer Tikka','Babycorn Fritters','Stuffed Mushrooms','Masala Papad'];
+	let starterPrice = [250,190,250,130];
+	let starterQuantity = [8,12,5,23];
+	localStorage.setItem("starterNames", JSON.stringify(starterNames));
+	localStorage.setItem("starterPrice", JSON.stringify(starterPrice));
+	localStorage.setItem("starterQuantity", JSON.stringify(starterQuantity));
+
+	let mainCourseNames = ['Phulka','Tandoori Roti','Fried Rice','Schezwan Noodles'];
+	let mainCoursePrice = [60,60,250,270];
+	let mainCourseQuantity = [8,12,5,23];
+	localStorage.setItem("mainCourseNames", JSON.stringify(mainCourseNames));
+	localStorage.setItem("mainCoursePrice", JSON.stringify(mainCoursePrice));
+	localStorage.setItem("mainCourseQuantity", JSON.stringify(mainCourseQuantity));
+
+	let graviesNames = ['Kadai Veg','Dal Tadka','Paneer Butter Masala'];
+	let graviesPrice = [290,190,290];
+	let graviesQuantity = [10,6,5];
+	localStorage.setItem("graviesNames", JSON.stringify(graviesNames));
+	localStorage.setItem("graviesPrice", JSON.stringify(graviesPrice));
+	localStorage.setItem("graviesQuantity", JSON.stringify(graviesQuantity));
+
+	let beveragesNames = ['Cappuccino','Lemon Tea','Shakes','Peach Dessert'];
+	let beveragesPrice = [190,120,200,160];
+	let beveragesQuantity = [30,30,25,10];
+	localStorage.setItem("beveragesNames", JSON.stringify(beveragesNames));
+	localStorage.setItem("beveragesPrice", JSON.stringify(beveragesPrice));
+	localStorage.setItem("beveragesQuantity", JSON.stringify(beveragesQuantity));
+</script>
